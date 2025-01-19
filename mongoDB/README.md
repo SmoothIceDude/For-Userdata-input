@@ -8,14 +8,14 @@ docker build -t custom-mongodb .
 
 
 
-1.) Create a Docker Network
+# Step 1.) Create a Docker Network
 First, create a custom Docker network to allow both containers to communicate:
 
 ```bash
 docker network create app-network
 ```
 
-2.) Run the Custom MongoDB Container
+# Step 2.) Run the Custom MongoDB Container
 Run your custom MongoDB container in the newly created network:
 
 ```bash
