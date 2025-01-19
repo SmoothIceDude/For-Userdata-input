@@ -31,6 +31,12 @@ exec('npm audit fix --force', (error, stdout, stderr) => {
 
 // MongoDB connection
 const mongoUri = process.env.MONGO_URI; // Ensure MONGO_URI is set in the .env file
+
+// Validate that MONGO_URI is defined
+if (!process.env.MONGO_URI) {
+  throw new Error('MONGO_URI is not defined!');
+}
+
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
@@ -51,7 +57,7 @@ app.get('/', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>User Form</title>
+        <title>User Form for Brightflow</title>
       </head>
       <body>
         <h1>Enter User Information</h1>
@@ -78,6 +84,9 @@ app.get('/', (req, res) => {
 // User creation route (POST request)
 app.post('/users', async (req, res) => {
   const { name, phone, email, address } = req.body;
+//  Needing the following later:
+// First_name, Last_name, mobile_phone, work_phone, email, address, city, state, zipcode
+// create_username, create_password. confirm_password
 
   // Validate request body
   if (!name || !phone || !email || !address) {
