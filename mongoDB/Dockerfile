@@ -12,4 +12,4 @@ ENV MONGO_INITDB_ROOT_PASSWORD=securepassword
 VOLUME /data/db
 
 # Default command to start MongoDB
-CMD ["mongod"]
+CMD ["mongod", "--bind_ip_all"]
