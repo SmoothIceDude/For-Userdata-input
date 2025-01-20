@@ -38,10 +38,12 @@ mongoose
 
 // User schema and model
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   phone: { type: String, required: true },
   email: { type: String, required: true },
   address: { type: String, required: true },
+  emergencyContact: { type: String, required: true }, // New field
 });
 
 const User = mongoose.model('User', userSchema);
@@ -56,8 +58,11 @@ app.get('/', (req, res) => {
       <body>
         <h1>Enter User Information</h1>
         <form action="/users" method="POST">
-          <label for="name">Name:</label><br>
-          <input type="text" id="name" name="name" required><br><br>
+          <label for="firstName">First Name:</label><br>
+          <input type="text" id="firstName" name="firstName" required><br><br>
+
+          <label for="lastName">Last Name:</label><br>
+          <input type="text" id="lastName" name="lastName" required><br><br>
 
           <label for="phone">Phone:</label><br>
           <input type="text" id="phone" name="phone" required><br><br>
@@ -68,6 +73,9 @@ app.get('/', (req, res) => {
           <label for="address">Address:</label><br>
           <input type="text" id="address" name="address" required><br><br>
 
+          <label for="emergencyContact">Emergency Contact:</label><br>
+          <input type="text" id="emergencyContact" name="emergencyContact" required><br><br>
+
           <button type="submit">Submit</button>
         </form>
       </body>
@@ -77,15 +85,15 @@ app.get('/', (req, res) => {
 
 // User creation route (POST request)
 app.post('/users', async (req, res) => {
-  const { name, phone, email, address } = req.body;
+  const { firstName, lastName, phone, email, address, emergencyContact } = req.body;
 
   // Validate request body
-  if (!name || !phone || !email || !address) {
+  if (!firstName || !lastName || !phone || !email || !address || !emergencyContact) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
   try {
-    const user = new User({ name, phone, email, address });
+    const user = new User({ firstName, lastName, phone, email, address, emergencyContact });
     await user.save(); // Save to MongoDB
     res.status(201).json({ message: 'User saved successfully!', user });
 
