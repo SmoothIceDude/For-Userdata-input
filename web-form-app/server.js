@@ -42,7 +42,10 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   phone: { type: String, required: true },
   email: { type: String, required: true },
-  address: { type: String, required: true },
+  streetNumber: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  zipCode: { type: String, required: true },
   emergencyContact: { type: String, required: true }, // New field
 });
 
@@ -70,8 +73,17 @@ app.get('/', (req, res) => {
           <label for="email">Email:</label><br>
           <input type="email" id="email" name="email" required><br><br>
 
-          <label for="address">Address:</label><br>
-          <input type="text" id="address" name="address" required><br><br>
+          <label for="streetNumber">Street Number:</label><br>
+          <input type="text" id="streetNumber" name="streetNumber" required><br><br>
+
+          <label for="city">City:</label><br>
+          <input type="text" id="city" name="city" required><br><br>
+
+          <label for="state">State:</label><br>
+          <input type="text" id="state" name="state" required><br><br>
+
+          <label for="zipCode">Zip Code:</label><br>
+          <input type="text" id="zipCode" name="zipCode" required><br><br>
 
           <label for="emergencyContact">Emergency Contact:</label><br>
           <input type="text" id="emergencyContact" name="emergencyContact" required><br><br>
@@ -85,15 +97,15 @@ app.get('/', (req, res) => {
 
 // User creation route (POST request)
 app.post('/users', async (req, res) => {
-  const { firstName, lastName, phone, email, address, emergencyContact } = req.body;
+  const { firstName, lastName, phone, email, streetNumber, city, state, zipCode, emergencyContact } = req.body;
 
   // Validate request body
-  if (!firstName || !lastName || !phone || !email || !address || !emergencyContact) {
+  if (!firstName || !lastName || !phone || !email || !streetNumber || !city || !state || !zipCode || !emergencyContact) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
   try {
-    const user = new User({ firstName, lastName, phone, email, address, emergencyContact });
+    const user = new User({ firstName, lastName, phone, email, streetNumber, city, state, zipCode, emergencyContact });
     await user.save(); // Save to MongoDB
     res.status(201).json({ message: 'User saved successfully!', user });
 
