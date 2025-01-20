@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); // Load environment variables 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,9 +11,10 @@ const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // To handle form data
 
-console.log('Environment Variables:', process.env);
+// Ensure MONGO_URI is set in the .env file and use MongoDB Atlas URI
+const mongoUri = process.env.MONGO_URI;
 
-// Run npm audit fix --force to address vulnerabilities
+// Run npm audit fix --force to address vulnerabilities during startup
 exec('npm audit fix --force', (error, stdout, stderr) => {
   if (error) {
     console.error(`Error executing npm audit fix: ${error.message}`);
@@ -30,10 +31,9 @@ exec('npm audit fix --force', (error, stdout, stderr) => {
 });
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URI; // Ensure MONGO_URI is set in the .env file
 mongoose
-  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
+  .connect(mongoUri)
+  .then(() => console.log('Connected to MongoDB Atlas!'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // User schema and model
