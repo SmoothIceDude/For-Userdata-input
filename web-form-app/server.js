@@ -10,12 +10,16 @@ const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // To handle form data
 
-console.log('Environment Variables:', process.env);
+// Check if MONGO_URI is set in environment variables
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+  console.error("MongoDB URI (MONGO_URI) is not set in the .env file!");
+  process.exit(1); // Exit if there's no MongoDB URI
+}
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URI; // Ensure MONGO_URI is set in the .env file
 mongoose
-  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoUri)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
@@ -78,6 +82,15 @@ app.post('/users', async (req, res) => {
     console.error('Error saving user:', error);
     res.status(500).json({ error: 'Failed to save user.' });
   }
+});
+
+// Graceful shutdown of the server
+process.on('SIGINT', () => {
+  console.log("Received termination signal. Shutting down...");
+  mongoose.connection.close(() => {
+    console.log("MongoDB connection closed.");
+    process.exit(0);
+  });
 });
 
 // Start the server
