@@ -7,7 +7,13 @@ created by CA
  2.) web-form-app (see README in its own folder)
 
 * Please note that MongoDB takes a considerable amount of time, approx 6 minutes to build  
+* If package-lock.json is missing, generate it locally
 
+```bash
+cd web-form-app
+rm -rf node_modules package-lock.json
+npm install
+``
 
 the URI for the mongoDB is extremely important and can be set to cloud or on-prem
 
