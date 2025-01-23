@@ -44,7 +44,7 @@ docker compose up --build
 ###### Stop the Application
 
 ```bash
-docker-compose down --columes
+docker-compose down --volumes
 ```
 ##### Rebuild Specific Service: If you only changed something in web-form-app:
   
