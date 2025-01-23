@@ -1,6 +1,6 @@
  # Attention to run this application. You will need to run two seperate containers
   
-created by CA
+created by JY
 
  1.) Mongo DB (see README in its own folder)  
 
