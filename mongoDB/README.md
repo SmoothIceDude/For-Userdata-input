@@ -16,7 +16,7 @@ docker network create app-network
 Run your custom MongoDB container in the newly created network:
   
 ```bash
-docker run -d --name mongodb --network app-network -p 27017:27017 custom-mongodb
+docker run -d --name mongodb --network=app-network --name mongo mongo-p 27017:27017 custom-mongodb
 ```
 
 
