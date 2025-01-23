@@ -34,10 +34,46 @@ For-Userdata-input
 
 Directory Context: The docker-compose tool runs in the context of the directory where the file is located. Placing it at the root ensures all services (mongoDB and web-form-app) can be accessed and managed together.
 
+###### Start the Application
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
+  
+###### Stop the Application
+
+```bash
+docker-compose down --columes
+```
+##### Rebuild Specific Service: If you only changed something in web-form-app:
+  
+```bash
+docker-compose build web-form-app
+docker-compose up
+```
+
+
+### Logs and Debugging
+View Logs:
+
+```bash
+docker logs mongodb
+docker logs web-form-app
+```
+  
+### Test MongoDB Connection: Use docker exec to connect to the MongoDB container and verify it’s running:
+
+```bash
+docker exec -it mongodb mongo -u admin -p securepassword
+```
+
+### Access Node.js App: Open http://localhost:3000 in your browser or use curl to test:
+
+curl http://localhost:3000
+
+
+
+
 
 
 # What Happens When You Run docker-compose up --build?

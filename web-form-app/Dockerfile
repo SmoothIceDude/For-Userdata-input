@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /usr/src/app
 
 # Copy package.json and install dependencies
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 
 # Copy the application code
@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3000
 
 # Run the application
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

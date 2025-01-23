@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  mongo:
+    build:
+      context: ./mongoDB        # Build the custom MongoDB image from the mongoDB directory
+      dockerfile: Dockerfile    # Use the Dockerfile inside the mongoDB directory
+    container_name: mongodb
+    ports:
+      - "27017:27017"           # Expose MongoDB's default port
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db     # Persist MongoDB data
+
+  web-form-app:
+    build:
+      context: ./web-form-app # expects the files to be in the root for package.json
+      dockerfile: Dockerfile # Build the custom web-form image from the mongoDB directory
+    container_name: web-form-app   #Use the Dockerfile inside the web-form-app directory
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://admin:securepassword@mongodb:27017/mydatabase?authSource=admin
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
