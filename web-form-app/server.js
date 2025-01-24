@@ -2,6 +2,7 @@ require('dotenv').config(); // Load environment variables
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { exec } = require('child_process'); // For running shell commands
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -11,6 +12,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // To handle form data
 
 console.log('Environment Variables:', process.env);
+
+// Optional: Run npm audit fix --force
+if (process.env.RUN_AUDIT_FIX === 'true') {
+  exec('npm audit fix --force', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing npm audit fix: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log('npm audit fix --force completed successfully.');
+  });
+}
 
 // MongoDB connection
 const mongoUri = process.env.MONGO_URI; // Ensure MONGO_URI is set in the .env file
